@@ -4,6 +4,7 @@ import express, {
   type Response,
 } from "express";
 import { pool } from "./db";
+import { userRoutes } from "./modules/users/user.router";
 
  export const app: Application = express();
 
@@ -12,6 +13,10 @@ import { pool } from "./db";
 app.use(express.text()); // plain text
 app.use(express.json()); // json format
 app.use(express.urlencoded({ extended: true })); // extended means it will take the nested object also
+
+// routes:
+app.use("/api/users",userRoutes)
+
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
@@ -24,31 +29,7 @@ app.get("/", (req: Request, res: Response) => {
 ** http method 
 */
 // Post
-app.post("/api/users", async (req: Request, res: Response) => {
-  // console.log( req.body) // undefined until use middleware
-  const { name, email, course, password, age } = req.body;
-  //   inserting user query
-  try {
-    const createUser = await pool.query(
-      `
-        INSERT INTO users (name,email,course,password,age) 
-        VALUES ($1,$2,$3,$4,$5)  
-        RETURNING *
-        `,
-      [name, email, course, password, age],
-    );
-    // console.log(createUser)
-    res.status(200).json({
-      message: "User Created successfully",
-      data: createUser.rows[0],
-    });
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message,
-      error: error,
-    });
-  }
-});
+
 
 // Get all users
 app.get("/api/users", async (req: Request, res: Response) => {
@@ -74,9 +55,7 @@ app.get("/api/users", async (req: Request, res: Response) => {
     });
   }
 });
-
 // Get single user
-
 app.get("/api/users/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
   try {
@@ -150,7 +129,6 @@ app.patch("/api/users/:id", async (req: Request, res: Response) => {
     });
   }
 });
-
 //delete user
 app.delete("/api/users/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
