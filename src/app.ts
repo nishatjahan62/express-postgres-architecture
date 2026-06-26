@@ -6,6 +6,7 @@ import express, {
 import { pool } from "./db";
 import { userRoutes } from "./modules/users/user.route";
 import { profileRoutes } from "./modules/profile/profile.route";
+import { authRoutes } from "./modules/auth/auth.routes";
 
  export const app: Application = express();
 
@@ -26,6 +27,8 @@ app.get("/", (req: Request, res: Response) => {
 // routes:
 app.use("/api/users",userRoutes)
 app.use("/api/profiles",profileRoutes)
+app.use("/api/auth",authRoutes)
+
 
 
 
