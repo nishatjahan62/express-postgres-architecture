@@ -5,11 +5,10 @@ import { userController } from "./user.controller";
 export const router = Router()
 
 router.post("/",userController.createUser )
-router.post("/",userController.getAllUsers )
-router.post("/",userController.getSingleUser )
-router.post("/",userController.updateUser )
-
-router.post("/",userController.deleteUser )
+router.get("/",userController.getAllUsers )
+router.get("/id",userController.getSingleUser )
+router.put("/id",userController.updateUser )
+router.delete("/id",userController.deleteUser )
 
 
 export const userRoutes =router

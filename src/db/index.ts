@@ -3,7 +3,7 @@ import config from "../config";
 
 // neonDB connection
 export const pool = new Pool({
-  connectionString:config.connection_string
+  connectionString: config.connection_string,
 });
 
 export const initDB = async () => {
@@ -21,8 +21,26 @@ export const initDB = async () => {
              created_at TIMESTAMP DEFAULT NOW(),
              updated_at TIMESTAMP DEFAULT NOW()
              ) 
+
              
+
+
         `);
+
+    await pool.query(`
+   CREATE TABLE IF NOT EXISTS profiles(
+   id SERIAL PRIMARY KEY ,
+   user_id INT UNIQUE REFERENCES users(id) ON delete CASCADE, 
+   bio TEXT,
+  address TEXT,
+   phone VARCHAR(20),
+   gender VARCHAR(15),
+     created_at TIMESTAMP DEFAULT NOW(),
+             updated_at TIMESTAMP DEFAULT NOW()
+  
+   )
+  `);
+
     console.log("Database connected successfully");
   } catch (error) {
     console.log(error);
