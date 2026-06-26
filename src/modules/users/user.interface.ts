@@ -1,6 +1,6 @@
 export interface IUser {
     name :string,
-    password:number,
+    password:string,
     course:string,
     age:number,
     is_active:boolean,

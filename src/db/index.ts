@@ -14,7 +14,7 @@ export const initDB = async () => {
              name VARCHAR(20),
              email VARCHAR(20) UNIQUE NOT NULL   ,
              course VARCHAR(20),
-             password VARCHAR(20) UNIQUE NOT NULL,
+             password TEXT UNIQUE NOT NULL,
              is_active BOOLEAN DEFAULT TRUE,
              age INT ,
 
