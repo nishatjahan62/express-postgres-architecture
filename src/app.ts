@@ -7,6 +7,7 @@ import { pool } from "./db";
 import { userRoutes } from "./modules/users/user.route";
 import { profileRoutes } from "./modules/profile/profile.route";
 import { authRoutes } from "./modules/auth/auth.routes";
+import fs from "fs"
 
  export const app: Application = express();
 
@@ -15,6 +16,18 @@ import { authRoutes } from "./modules/auth/auth.routes";
 app.use(express.text()); // plain text
 app.use(express.json()); // json format
 app.use(express.urlencoded({ extended: true })); // extended means it will take the nested object also
+
+app.use((req, res, next) => {
+  console.log("Method:" , req.method , "URL :" , req.url , "Time:" , new Date().toLocaleString() );
+  next();
+
+  const log = `Method:" , ${req.method} , "URL :" , ${req.url} , "Time:" , ${new Date().toLocaleString()}`
+  // creating logger file using appendfile
+fs.appendFile("logger.txt" , log , (err)=>{
+  console.log(err)
+})
+});
+
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
